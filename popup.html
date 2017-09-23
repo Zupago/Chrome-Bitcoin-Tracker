@@ -1,0 +1,152 @@
+﻿<html lang="en" ng-app="BitcoinRates" ng-controller="DocLoaded">
+
+<head>
+    <meta charset="utf-8" />
+    <title>ZuPago BTC/BCH Tracker & Converter</title>
+    <link href="lib/AngularAndMaterial/angular-material/angular-material.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <meta name="viewport" content="initial-scale=1" />
+    <!--jQuery-->
+    <script src="lib/jquery-3.2.1.min.js"></script>
+
+    <link href="css/commonStyles.css" rel="stylesheet" />
+    <link href="css/commonStyles.css" rel="stylesheet" />
+    <link href="css/popup.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="loadingLines">
+        <img src="images/InternetSlowdown_Day.gif" />
+    </div>
+    <div ng-controller="AppCtrl" layout="column" class="mainDiv" style="height: 520px;" ng-cloak>
+        <md-toolbar layout="row" class="mdToolbar _md _md-toolbar-transitions">
+
+            <div class="md-toolbar-tools">
+                <i class="material-icons" ng-click="toggleLeft()">menu</i><span class="spacer5"></span>
+
+                <h1 layout-align-gt-sm="center">
+                    ZuPago BTC/BCH Tracker & Converter
+                </h1>
+            </div>
+        </md-toolbar>
+
+        <section layout="row" flex class="mainSection">
+
+            <md-sidenav class="md-sidenav-left" md-component-id="left"
+                        md-whiteframe="4">
+
+                <md-toolbar class="md-theme-indigo">
+                    <h1 class="md-toolbar-tools">Menu</h1>
+                </md-toolbar>
+
+                <md-content layout-margin class="mdSideContent">
+                    <div layout="row" layout-align="end center">
+                        <md-button ng-click="toggleLeft()" class="md-accent sideNavClose">
+                            <i class="material-icons">navigate_before</i>
+                        </md-button>
+                    </div>
+
+
+                    <md-input-container class="md-block">
+                        <label>Currency on button</label>
+                        <md-select ng-model="appSelectedcurrency" placeholder="Currency" ng-change="appSelectedcurrencyChange()">
+                            <md-option ng-value="c" ng-repeat="c in currencies.abbrev">{{ currencies.expanded[c]?currencies.expanded[c]:c }}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Value on button</label>
+                        <md-select ng-model="valueOnButton" placeholder="Currency" ng-change="valueOnButtonChange()">
+                            <md-option ng-value="v" ng-repeat="v in buySellOptions">{{v}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" >
+                        <label>Bit Currency on button</label>
+                        <md-select ng-model="appSelectedBitCurency" placeholder="Bit Currency" ng-change="appSelectedBitcurrencyChange()">
+                            <md-option ng-value="bc" ng-repeat="bc in bitCurrencies">{{ bc }}</md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Language</label>
+                        <md-select disabled ng-model="language" placeholder="Language">
+                            <md-option ng-value="english">English</md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-content>
+
+            </md-sidenav>
+
+            <md-content flex layout-padding class="mainBackground">
+                
+                <md-input-container class="marginByJs" style="margin:unset">
+                    <md-select ng-model="bitCurencySelectedValue" placeholder="Bit Currency"  ng-change="bitSelectChange()">
+                        <md-option ng-value="bc" ng-repeat="bc in bitCurrencies" >{{ bc }}</md-option>
+                    </md-select>
+                </md-input-container>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block bitcoinValueBox" flex-gt-sm>
+                        <label>Value</label>
+                        <input ng-model="bitCurrencyVal" id="bitCurrencyVal" ng-change="bitValChange()">
+                    </md-input-container>
+
+
+                   <i class="material-icons forwardArrow">arrow_forward</i>
+                    <md-input-container class="md-block bitcoinValueBox marginByJs" flex-gt-sm>
+                        <label>Value</label>
+                        <input ng-model="currencyVal" id="currencyVal" ng-change="curValChange()">
+                    </md-input-container>
+                    <md-input-container class="marginByJs">
+                        <md-select ng-model="curencySelectedValue" placeholder="Currency"   ng-change="curSelectChange()" >
+                            <md-option ng-value="c" ng-repeat="c in currencies.abbrev">{{ currencies.expanded[c]?currencies.expanded[c]:c }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                   <md-content style="width:100%; text-align:center;">
+                       <h3 class="marginByJs">{{appSelectedBitCurency}} Rate - {{ appSelectedcurrency}} ({{currencies.expanded[appSelectedcurrency]?currencies.expanded[appSelectedcurrency]:appSelectedcurrency}})</h3>
+                       <table style="width:100%;margin-left:auto;margin-right:auto;">
+                           <tbody>
+                               <tr>
+                                   <td>Sell</td>
+                                   <td>Buy</td>
+                               </tr>
+                               <tr>
+                                   <td id="usSell">{{httpBtcOrBch?(httpBtcOrBch[appSelectedcurrency]['sell']?httpBtcOrBch[appSelectedcurrency]['sell']:'....'): '....'}}</td>
+                                   <td id="usBuy">{{httpBtcOrBch?(httpBtcOrBch[appSelectedcurrency]['buy']?httpBtcOrBch[appSelectedcurrency]['buy']:'....'):'....'}}</td>
+                               </tr>
+                           </tbody>
+                       </table>
+                   </md-content>
+
+                </div>
+                <div  class="chartContainer" style="width:450px; height:220px; background:linear-gradient(to bottom, transparent 0%, rgba(0, 62, 43, 0.21) 50%, #fff 100%)">
+                    <md-progress-circular class="progressCircle" md-mode="indeterminate"></md-progress-circular>
+                    <canvas id="line" class="chart chart-line" chart-data="data"
+                chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride"  chart-click="onClick"></canvas>
+                    <div style="position:fixed; width:100%; text-align:center">
+                        <h4>Chart: Three months USD values against BTC</h4>
+                    </div>
+                </div>
+            </md-content>
+          
+        </section>
+    </div>
+
+    <footer>
+        <a href="https://zupago.pe/account-selection">Click To Get Your Bitcoin BTC/BCH Wallet</a>    
+    </footer>
+    
+    <script src="lib/node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular/angular.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-animate/angular-animate.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-aria/angular-aria.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-messages/angular-messages.min.js"></script>
+
+    <script src="lib/AngularAndMaterial/angular-material/angular-material.min.js"></script>
+
+    <script src="lib/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

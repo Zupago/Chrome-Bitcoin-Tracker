@@ -1,0 +1,29 @@
+﻿{
+  "name": "ZuPago Bitcoin BTC/BCH Tracker & Converter",
+  "short_name": "ZP BTC/BCH Tracker & Converter",
+  "version": "1.0.3",
+  "description": "Helps Calculate Current Bitcoin BTC/BCH Exchange Rates",
+  "permissions": [
+    "tabs",
+    "storage",
+    "https://*.zupago.pe/*",
+    "https://*.bitcoinaverage.com/*",
+    "http://*.zupago.pe/*",
+    "http://*.bitcoinaverage.com/*"
+  ],
+  "browser_action": {
+    "default_icon": "images/icon128.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://ssl.google-analytics.com/ga.js; object-src 'self'",
+  "manifest_version": 2
+}

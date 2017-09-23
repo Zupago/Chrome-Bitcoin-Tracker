@@ -1,0 +1,62 @@
+﻿<html lang="en" ng-app="bgApp" ng-controller="DocLoaded">
+
+<head>
+    <meta charset="utf-8" />
+    <title>ZuPago BTC/BCH Tracker & Converter - background</title>
+    <!--jQuery-->
+    <script src="lib/jquery-3.2.1.min.js"></script>
+
+</head>
+<body>
+    <div class="loadingLines">
+        <img src="images/InternetSlowdown_Day.gif" />
+    </div>
+    <div ng-controller="AppCtrl" layout="column" class="mainDiv" style="height: 520px;" ng-cloak>
+        <md-toolbar layout="row" class="mdToolbar _md _md-toolbar-transitions">
+
+            <div class="md-toolbar-tools">
+                <i class="material-icons" ng-click="toggleLeft()">menu</i><span class="spacer5"></span>
+
+                <h1 layout-align-gt-sm="center">
+                    ZuPago BTC/BCH Tracker & Converter
+                </h1>
+            </div>
+        </md-toolbar>
+
+
+        <section layout="row" flex class="mainSection">
+
+            <md-sidenav class="md-sidenav-left" md-component-id="left"
+                        md-whiteframe="4">
+
+                <md-toolbar class="md-theme-indigo">
+                    <h1 class="md-toolbar-tools">Menu</h1>
+                </md-toolbar>
+
+                <md-content layout-margin class="mdSideContent">
+                    <div layout="row" layout-align="end center">
+                        <md-button ng-click="toggleLeft()" class="md-accent sideNavClose">
+                            <i class="material-icons">navigate_before</i>
+                        </md-button>
+                    </div>
+
+
+                </md-content>
+
+            </md-sidenav>
+
+        </section>
+    </div>
+
+    <!-- Angular Material Dependencies -->
+    <script src="lib/AngularAndMaterial/angular/angular.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-animate/angular-animate.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-aria/angular-aria.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="lib/AngularAndMaterial/angular-messages/angular-messages.min.js"></script>
+
+    <script src="lib/AngularAndMaterial/angular-material/angular-material.min.js"></script>
+    <script src="background.js"></script>
+    
+</body>
+</html>

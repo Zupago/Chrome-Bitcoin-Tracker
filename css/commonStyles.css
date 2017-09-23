@@ -1,0 +1,38 @@
+﻿
+.spacer5 {
+    width: 5px;
+}
+
+i {
+    cursor: pointer;
+}
+
+.mainContent {
+    height: 1250px;
+}
+
+
+md-toolbar {
+    box-shadow: 0px 5px 15px 5px grey;
+    position: fixed;
+}
+
+
+table.dataTable tbody th, table.dataTable tbody td {
+    background-color: rgb(250,250,250);
+}
+
+input[type=search], .dataTables_length select {
+    background-color: rgb(250,250,250);
+}
+
+
+.dataTableContainer {
+    width: 96%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.mainSection, .mdSideContent {
+    margin-top: 50px;
+}
